@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8' />
+    <title>aliway black list</title>
+    <script type="text/javascript">
+      var black_list = new Array();
+      black_list = safari.extension.settings.aliway_black_list.split(/\s+/);
+      function responseFromGlobal(theEvent){ 
+      if(theEvent.name === "requireBlackList")
+      {
+      theEvent.target.page.dispatchMessage("sendBlackList", black_list);
+      }
+      }
+      safari.application.addEventListener("message", responseFromGlobal,false);
+      
+      function listChanged(event) {
+      if (event.key == "aliway_black_list") {
+      black_list = event.newValue.split(/\s+/);
+      }
+      }
+      safari.extension.settings.addEventListener("change", listChanged, false);
+    </script>
+  </head>
+</html>
