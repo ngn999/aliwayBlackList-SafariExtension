@@ -12,7 +12,6 @@ function recieveBlackList(msgEvent) {
                threads[i].setAttribute("style","display:none;");
            }
        }
-       
    }
 }
 safari.self.addEventListener("message", recieveBlackList, false);
