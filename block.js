@@ -7,7 +7,7 @@ function recieveBlackList(msgEvent) {
        var threads;
        threads = document.getElementsByClassName('t5');
        for(var i = 0; i < threads.length; i++) {
-           var name = threads[i].getElementsByClassName('g-has-hovercard2')[0].childNodes[0].nodeValue;
+           var name = threads[i].getElementsByClassName('g-has-hovercard2')[0].firstChild.nodeValue;
            if (black_list.indexOf(name) != -1) {
                threads[i].setAttribute("style","display:none;");
            }
@@ -17,7 +17,9 @@ function recieveBlackList(msgEvent) {
 safari.self.addEventListener("message", recieveBlackList, false);
 
 window.addEventListener('load',
-                        function(){
-                            safari.self.tab.dispatchMessage("requireBlackList");
-                        },
-                        true);
+                          function(event){
+                              safari.self.tab.dispatchMessage("requireBlackList");
+                              event.stopPropagation();
+                              event.stopImmediatePropagation();
+                          },
+                          false);
