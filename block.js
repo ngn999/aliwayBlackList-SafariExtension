@@ -1,25 +1,32 @@
-var black_list = new Array();
-function recieveBlackList(msgEvent) {
-   if (msgEvent.name === "sendBlackList") {
-       black_list = msgEvent.message;
-       console.log("recieve blocklist");
-       console.log(msgEvent.message);
-       var threads;
-       threads = document.getElementsByClassName('t5');
-       for(var i = 0; i < threads.length; i++) {
-           var name = threads[i].getElementsByClassName('g-has-hovercard2')[0].firstChild.nodeValue;
-           if (black_list.indexOf(name) != -1) {
-               threads[i].setAttribute("style","display:none;");
-           }
-       }
-   }
+function messageHandler(event) {
+    if (event.name === "set_blackList") {
+        // debug
+        // console.log("set blocklist");
+        var black_list = [];
+        event.message.split(/\s+/).forEach(function (element, index, array) {
+            black_list.push('(' + element + ')')
+        });
+        console.log(black_list);
+        var threads;
+        threads = document.getElementsByClassName('t5');
+        console.log(black_list);
+        for(var i = 0; i < threads.length; i++){
+            if (!threads[i]) continue;
+            var fl_black = threads[i].getElementsByClassName('fl black');
+            if (fl_black.length < 1) continue;
+            if (fl_black[0].childNodes.length < 2) continue;
+            var nick_name =  fl_black[0].childNodes[1].nodeValue;
+            // console.log(nick_name);
+            if (black_list.indexOf(nick_name) != -1) {
+                threads[i].setAttribute("style","display:none;");
+            }
+        }
+        safari.self.removeEventListener("message", messageHandler);
+    }
 }
-safari.self.addEventListener("message", recieveBlackList, false);
+safari.self.addEventListener("message", messageHandler, false);
 
-window.addEventListener('load',
-                          function(event){
-                              safari.self.tab.dispatchMessage("requireBlackList");
-                              event.stopPropagation();
-                              event.stopImmediatePropagation();
-                          },
-                          false);
+$(document).ready(function() {
+    safari.self.tab.dispatchMessage("get_blackList");
+    console.log("in ready");
+});

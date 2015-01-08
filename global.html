@@ -4,22 +4,23 @@
     <meta charset='utf-8' />
     <title>aliway black list</title>
     <script type="text/javascript">
-      var black_list = new Array();
-      black_list = safari.extension.settings.aliway_black_list.split(/\s+/);
-      function responseFromGlobal(theEvent){ 
-      if(theEvent.name === "requireBlackList")
-      {
-      theEvent.target.page.dispatchMessage("sendBlackList", black_list);
-      }
-      }
-      safari.application.addEventListener("message", responseFromGlobal,false);
+      var black_list = "";
+      black_list = safari.extension.settings.aliway_black_list;
+      window.onload = function() {
+        function responseFromGlobal(theEvent){ 
+          if(theEvent.name === "get_blackList") {
+            theEvent.target.page.dispatchMessage("set_blackList", black_list);
+          }
+        }
       
-      function listChanged(event) {
-      if (event.key == "aliway_black_list") {
-      black_list = event.newValue.split(/\s+/);
+        function listChanged(event) {
+          if (event.key == "aliway_black_list") {
+            black_list = event.newValue;
+          }
+        }
+        safari.application.addEventListener("message", responseFromGlobal,false);
+        safari.extension.settings.addEventListener("change", listChanged, false);
       }
-      }
-      safari.extension.settings.addEventListener("change", listChanged, false);
     </script>
   </head>
 </html>

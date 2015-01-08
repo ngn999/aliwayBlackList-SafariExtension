@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>Builder Version</key>
-	<string>9537.76.4</string>
+	<string>10600.2.5</string>
 	<key>CFBundleDisplayName</key>
 	<string>aliway_blacklist</string>
 	<key>CFBundleIdentifier</key>
@@ -23,12 +23,18 @@
 	<dict>
 		<key>Scripts</key>
 		<dict>
-			<key>Start</key>
+			<key>End</key>
 			<array>
 				<string>block.js</string>
 			</array>
+			<key>Start</key>
+			<array>
+				<string>jquery.js</string>
+			</array>
 		</dict>
 	</dict>
+	<key>DeveloperIdentifier</key>
+	<string>K9UZY8943F</string>
 	<key>ExtensionInfoDictionaryVersion</key>
 	<string>1.0</string>
 	<key>Permissions</key>
